@@ -1,0 +1,73 @@
+CODEBOOK
+Coursera: Getting and Cleaning Data
+
+Author: Jeroen Kromme
+Date: 11-08-2014
+
+Input files:
+```{r, echo = FALSE}
+for (i in list.files(".")){ cat('- ',i, '\n')}
+for (i in list.files("./data")){ cat('- ',i, '\n')}
+for (i in list.files("./data/train")){ cat('- ',i, '\n')}
+for (i in list.files("./data/test")){ cat('- ',i, '\n')}
+
+```
+
+Analysis script:
+- run_analysis.R
+
+Goal of script:
+Tidy up data so it is unified workable dataset on which analyses can easily performed.
+
+Tidy data has:
+- each variable in a seperate column
+- each observation in a seperate row
+- there should be one table for each kind of variable
+- include variable names
+- variable names should be readable
+- general data should be saved in one file per table
+
+Actions in script:
+- Load Packages
+- Load data
+- Naming variables (bulletpoint 4)
+- Union datasets (bulletpoint 1)
+- Only means and standard deviations (bulletpoint 2)
+- Merge activity names to increase readibilty (bulletpoint 3)
+- Join xdata and ydata 
+- Tidy-up names
+- Mean of each activity per subject (bulletpoint 5)
+- Write files
+
+Output files:
+- cleanDataset.csv
+- dataset_tidy.csv
+
+Variables in cleanDataset:
+```{r, echo = FALSE}
+dataset <- read.csv( 'cleanDataset.csv')
+for (i in names(dataset)[2:length(names(dataset))]){
+  name = ''
+  if (grepl('subject', i)){name ='id of subject'}
+  else if (grepl('activityName', i)){name ='name of activity'}
+  if (grepl('Avg', i)){name = paste0(name, 'mean of ')}
+  else if (grepl('Std', i)){name = paste0(name, 'Standard deviation of ')} 
+  if (grepl('Body', i)){name = paste0(name, 'body of ')} 
+  else if (grepl('Gravity', i)){name = paste0(name, 'gravity of')}
+  if (grepl('AccJerkMag', i)){name = paste0(name, 'magnitude of acceleration jerk ')} 
+  else if (grepl('AccJerk', i)){name = paste0(name, 'acceleration jerk ')} 
+  else if (grepl('AccMag', i)){name = paste0(name, 'magnitude of acceleration ')} 
+  else if (grepl('Acc', i)){name = paste0(name, 'acceleration ')} 
+  else if (grepl('GyroJerkMag', i)){name = paste0(name, 'magnitude of gyro jerk ')}
+  else if (grepl('GyroJerk', i)){name = paste0(name, 'gyro jerk ')}
+  else if (grepl('GyroMag', i)){name = paste0(name, 'magnitude of gyro ')}
+  else if (grepl('Gyro', i)){name = paste0(name, 'gyro ')}
+  if (grepl('.X', i)){name = paste0(name, 'of X')}
+  else if (grepl('.Y', i)){name = paste0(name, 'of Y')}
+  else if (grepl('.Z', i)){name = paste0(name, 'of Z')}
+  cat('\n- ',i,':', name, ', type =', class(i))
+  }
+
+```
+
+
